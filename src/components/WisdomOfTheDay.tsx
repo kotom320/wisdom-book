@@ -7,6 +7,8 @@ import { WisdomCard } from "./WisdomCard";
 import {
   getOrCreateUserId,
   getTodayDateKey,
+  loadSeenIds,
+  markSeen,
   pickByDailySeed,
 } from "@/lib/wisdom-selector";
 
@@ -17,11 +19,21 @@ export function WisdomOfTheDay() {
   const [seenIds, setSeenIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    const uid = getOrCreateUserId();
-    const dateKey = getTodayDateKey();
-    const picked = pickByDailySeed(allWisdoms, uid, dateKey);
+    const params = new URLSearchParams(window.location.search);
+    const forcedId = params.get("id");
+
+    let picked: Wisdom;
+    if (forcedId) {
+      const found = allWisdoms.find((w) => w.id === forcedId);
+      picked = found ?? pickByDailySeed(allWisdoms, getOrCreateUserId(), getTodayDateKey());
+    } else {
+      const uid = getOrCreateUserId();
+      const dateKey = getTodayDateKey();
+      picked = pickByDailySeed(allWisdoms, uid, dateKey);
+    }
+
     setWisdom(picked);
-    setSeenIds(new Set([picked.id]));
+    setSeenIds(markSeen(picked.id));
   }, []);
 
   const pickAnother = () => {
@@ -29,7 +41,7 @@ export function WisdomOfTheDay() {
     if (unseen.length === 0) return;
     const next = unseen[Math.floor(Math.random() * unseen.length)];
     setWisdom(next);
-    setSeenIds((prev) => new Set(prev).add(next.id));
+    setSeenIds(markSeen(next.id));
   };
 
   if (!wisdom) {
@@ -46,7 +58,7 @@ export function WisdomOfTheDay() {
 
       {isAllSeen ? (
         <p className="text-muted text-[0.7rem] tracking-[0.35em] uppercase">
-          오늘치 지혜를 모두 읽으셨습니다
+          지혜의 서를 모두 펼쳐보셨습니다
         </p>
       ) : (
         <button
