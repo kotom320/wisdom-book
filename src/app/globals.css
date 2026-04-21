@@ -1,26 +1,192 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #d9c9a4;
+  --background-deep: #b8a478;
+  --foreground: #2e241a;
+  --foreground-soft: #4a3c2b;
+  --card: #c9b68c;
+  --card-edge: #9c8660;
+  --muted: #7a6a4d;
+  --accent: #6b4f2a;
+  --rule: #9c8660;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-deep: var(--background-deep);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-foreground-soft: var(--foreground-soft);
+  --color-card: var(--card);
+  --color-card-edge: var(--card-edge);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-rule: var(--rule);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #1a1712;
+    --background-deep: #0d0b08;
+    --foreground: #b8ab8c;
+    --foreground-soft: #988c70;
+    --card: #2a241b;
+    --card-edge: #3d3527;
+    --muted: #7a6f58;
+    --accent: #b8915d;
+    --rule: #3d3527;
   }
 }
 
+html,
 body {
-  background: var(--background);
+  font-family: var(--font-noto-serif-kr), ui-serif, "Nanum Myeongjo", Georgia,
+    serif;
+}
+
+body {
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--background);
+  background-image:
+    radial-gradient(
+      ellipse at top,
+      rgba(255, 240, 210, 0.35) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at bottom,
+      rgba(120, 90, 50, 0.18) 0%,
+      transparent 60%
+    ),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='360' height='360' viewBox='0 0 360 360'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.25  0 0 0 0 0.18  0 0 0 0 0.1  0 0 0 0.35 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
+  background-attachment: fixed;
+  background-size: auto, auto, 360px 360px;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='360' height='360' viewBox='0 0 360 360'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5  0 0 0 0 0.4  0 0 0 0 0.25  0 0 0 0.1 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/></svg>");
+    background-size: 360px 360px;
+  }
+}
+
+.paper {
+  position: relative;
+  background-color: var(--card);
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(220, 200, 160, 0.35) 0%,
+      rgba(160, 130, 80, 0.1) 40%,
+      rgba(90, 65, 30, 0.25) 100%
+    ),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.2  0 0 0 0 0.14  0 0 0 0 0.08  0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23g)'/></svg>");
+  background-size: auto, 240px 240px;
+  box-shadow:
+    0 1px 0 rgba(230, 215, 175, 0.5) inset,
+    0 0 0 1px rgba(90, 70, 40, 0.25),
+    0 2px 6px rgba(50, 35, 15, 0.12),
+    0 20px 45px -20px rgba(50, 35, 15, 0.45),
+    0 35px 70px -40px rgba(50, 35, 15, 0.55);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.paper::before,
+.paper::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 16px;
+  pointer-events: none;
+}
+
+.paper::before {
+  top: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(120, 90, 50, 0.2) 0%,
+    transparent 100%
+  );
+}
+
+.paper::after {
+  bottom: 0;
+  background: linear-gradient(
+    0deg,
+    rgba(120, 90, 50, 0.22) 0%,
+    transparent 100%
+  );
+}
+
+@media (prefers-color-scheme: dark) {
+  .paper {
+    background-image:
+      linear-gradient(
+        180deg,
+        rgba(160, 130, 85, 0.06) 0%,
+        transparent 45%,
+        rgba(0, 0, 0, 0.25) 100%
+      ),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.6  0 0 0 0 0.5  0 0 0 0 0.35  0 0 0 0.12 0'/></filter><rect width='100%25' height='100%25' filter='url(%23g)'/></svg>");
+    box-shadow:
+      0 1px 0 rgba(180, 150, 100, 0.12) inset,
+      0 0 0 1px rgba(180, 150, 100, 0.12),
+      0 2px 6px rgba(0, 0, 0, 0.35),
+      0 20px 45px -20px rgba(0, 0, 0, 0.6),
+      0 35px 70px -40px rgba(0, 0, 0, 0.7);
+  }
+
+  .paper::before,
+  .paper::after {
+    display: none;
+  }
+}
+
+.hero-text {
+  font-weight: 500;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out both;
+}
+
+@media (prefers-color-scheme: dark) {
+  .hero-text {
+    font-weight: 400;
+  }
+}
+
+.ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: var(--muted);
+}
+
+.ornament::before,
+.ornament::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--rule) 50%,
+    transparent 100%
+  );
 }
