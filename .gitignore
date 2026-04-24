@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# font cache (downloaded by scripts/subset-og-font.mjs)
+/.fonts-cache/
